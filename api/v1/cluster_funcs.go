@@ -1487,9 +1487,7 @@ func (target *RecoveryTarget) BuildPostgresOptions() string {
 	}
 	if target.TargetTime != "" {
 		tt := pgTime.ConvertToPostgresFormat(target.TargetTime)
-		if strings.HasSuffix(tt, "Z") {
-			tt += "ulu"
-		}
+		tt = strings.ReplaceAll(tt, "Z", "+00")
 		result += fmt.Sprintf(
 			"recovery_target_time = '%v'\n",
 			tt)
